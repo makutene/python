@@ -1,0 +1,16 @@
+#Not finished yet Problem 22
+
+char_num_dict={"A":1,"B":2,"C":3,"D":4,"E":5,"F":6,"G":7,"H":8,"I":9,"J":10,"K":11,"L":12,"M":13,"N":14,"O":15,"P":16,"Q":17,"R":18,"S":19,"T":20,"U":21,"V":22,"W":23,"X":24,"Y":25,"Z":26}
+
+f=open('names.txt','r')
+lista=sorted(f.read().replace('"','').split(',')
+
+def score(n):
+  score=0  
+  for i in n:
+    for j in range(len(i)):
+      if i[j] in char_num_dict.keys():
+        score+=char_num_dict.get(i[j])
+  return score
+
+print(score(lista))
