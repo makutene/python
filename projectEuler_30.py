@@ -17,7 +17,7 @@ def testFifht(num):
 
 num=1500
 fifths=[]
-while True:
+while num < 100000:
   if testFifht(num):
     fifths.append(num)
   num+=1
