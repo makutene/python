@@ -15,10 +15,11 @@ def testFifht(num):
       return False
   return True
 
-num=10
+num=1500
+fifths=[]
 while True:
-  if testFifht:
-    break
+  if testFifht(num):
+    fifths.append(num)
   num+=1
 
-print(num)
+print(sum(fifths))
