@@ -16,16 +16,18 @@
 #What is the value of the first triangle number to have over five hundred divisors?
 
 
-for i in range(1,20):
-  n=0
-  a=[]
-  for j in range(1,i+1):
-    n+=j
-    a.append(n)
+def isTriangular(num):
+  c=[]
+  for i in range(1,num):
+    c.append(i)
+    x=sum(c)
+    if x==num:
+      return True
+  return False
 
-
-for i in a:
-  b=[]
-  for j in range(i,1,-1):
-    if i%j==0:
-      print(j)
+n=0
+while True:
+  n+=1
+  for i in range(n,1,-1):
+    if n%i==0 and isTriangular(n):
+      print(n) 
