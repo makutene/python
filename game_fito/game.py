@@ -32,17 +32,26 @@ class Player(Char):
     self.moral=10
     self.moral_max=10
   def status(self):
-    print('{} moral: {}/{}'.format(self.name,self.moral,self.moral_max))
+    print('%s moral: %d/%d' % (self.name,self.moral, self.moral_max))
   def quit(self):
-    print('{} has died'.format(self.name))
+    print('%s has died' % self.name)
   def printLoc(loc):
-    
-
-
+    print(loc)
+  def move(direc):
+    global currentLocation
+    if direc in rooms[currentLocation]:
+      currentLocation=rooms[currentLocation][direc]        
+      
 
 
 comandos={'status':Player.status,
-          'quit':Player.quit}
+          'quit':Player.quit,
+          'loc':Player.printLoc,
+          'n':Player.move('norte'),
+          's':Player.move('sur'),
+          'e':Player.move('este'),
+          'o':Player.move('oeste')}
+
 
 p= Player()
 p.name=input('type your name: >')
