@@ -7,7 +7,7 @@ rooms={
         'fosmet':{
                   'norte':'nutcha',
                   'oeste':'pasillo hacia R15',
-                  'suelo':['diphoterine','detector h2s','hombre al            suelo']},
+                  'suelo':['diphoterine','detector h2s','hombre al suelo']},
         'pasillo hacia R15':{
                   'este':'fosmet',
                   'oeste':'R15',
