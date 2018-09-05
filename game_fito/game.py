@@ -7,7 +7,7 @@ rooms={
         'fosmet':{
                   'norte':'nutcha',
                   'oeste':'pasillo hacia R15',
-                  'suelo':['diphoterine','detector h2s','hombre al suelo']},
+                  'suelo':['diphoterine','detector h2s','hombre al            suelo']},
         'pasillo hacia R15':{
                   'este':'fosmet',
                   'oeste':'R15',
@@ -20,19 +20,17 @@ rooms={
 
 
 class Char:
-  def __init__(self, name, moral, moral_max):
-    self.name= name
+  def __init__(self):
+    self.name= ''
     self.moral= 10
     self.moral_max= 10
 
 class Player(Char):
-  def __init__(self,name, moral, moral_max, state):
-    super().__init__(name, moral, moral_max)
-    self.state= state
-  
-  def status(self):
-    print('%s moral is: %d/%d' % (self.name, self.moral, self.moral_max))
-  
+  def __init__(self):
+    super().__init__()
+    self.moral=10
+    self.moral_max=10
+
   def move(self, direc):
     global currentLocation
     if direc in rooms[currentLocation]:
@@ -41,6 +39,27 @@ class Player(Char):
     else:
       print('u cant move there')
 
+  def n(self):
+    self.move('norte')
+  def s(self):
+    self.move('sur')
+  def e(self):
+    self.move('este')
+  def o(self):
+    self.move('oeste')
 
+comandos={'norte':Player.n,
+          'sur':Player.s,
+          'este':Player.e,
+          'oeste':Player.o}
 
-
+p1=Player()
+p1.name=input('type ur name')
+while (p1.moral > 0):
+  line= input('>')0
+  arg=line.split()
+  if len(arg) >0:
+    for i in comandos.keys():
+      if arg[0]==i[:len(arg[0])]:
+        comandos[i](p1)
+        break
