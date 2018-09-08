@@ -30,7 +30,7 @@ class Char:
 class Player(Char):
   def __init__(self):
     super().__init__()
-    self.moral=10
+    self.moral=5
     self.moral_max=10
 
   def move(self, direc):
@@ -39,7 +39,7 @@ class Player(Char):
       currentLocation= rooms[currentLocation][direc]
       print('%s is at: %s' % (self.name, currentLocation))
     else:
-      print('u cant move there')
+      print('No puedes ir en esa dirección')
   
   def look(self):
     if len(rooms[currentLocation]['suelo']) > 0:
@@ -47,6 +47,15 @@ class Player(Char):
     else:
       print('no hay nada interesante..') 
   
+  def rest(self):
+    if self.moral < self.moral_max:
+      self.moral += 1
+    else:
+      print('Has descansado demasiado...')
+
+  def status(self):
+    print('La moral de %s: %d/%d' % (self.name, self.moral, self.moral_max))
+
   def take(self):
     obj=input('que objeto quieres? >')
     if obj in rooms[currentLocation]['suelo']:
@@ -60,8 +69,6 @@ class Player(Char):
   
   def inv(self):
     print(inventory)
-
-
 
   def n(self):
     self.move('norte')
@@ -78,10 +85,12 @@ comandos={'norte':Player.n,
           'oeste':Player.o,
           'look':Player.look,
           'take':Player.take,
-          'inv':Player.inv}
+          'inv':Player.inv,
+          'status':Player.status,
+          'rest':Player.rest}
 
 p1=Player()
-p1.name=input('type ur name')
+p1.name=input('Como te llamas? > ')
 while (p1.moral > 0):
   line= input('>')
   arg=line.split()
