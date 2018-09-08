@@ -1,6 +1,6 @@
 import random
 
-inventory=[]
+inventory={}
 currentLocation='fosmet'
 
 rooms={
@@ -47,9 +47,22 @@ class Player(Char):
     else:
       print('no hay nada interesante..') 
   
-  def take
+  def take(self):
+    obj=input('que objeto quieres? >')
+    if obj in rooms[currentLocation]['suelo']:
+      if obj in inventory.keys():
+        inventory[obj]+=1
+        rooms[currentLocation]['suelo'].remove(obj)
+      else:
+        inventory.setdefault(obj,1)  
+    else:
+      print('El objeto que quieres no está')
   
-  
+  def inv(self):
+    print(inventory)
+
+
+
   def n(self):
     self.move('norte')
   def s(self):
@@ -63,7 +76,9 @@ comandos={'norte':Player.n,
           'sur':Player.s,
           'este':Player.e,
           'oeste':Player.o,
-          'look':Player.look}
+          'look':Player.look,
+          'take':Player.take,
+          'inv':Player.inv}
 
 p1=Player()
 p1.name=input('type ur name')
