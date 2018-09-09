@@ -35,6 +35,9 @@ class Player(Char):
 
   def move(self, direc):
     global currentLocation
+    if random.randint(0,1):
+      e=Enemy()
+      e.low_moral()
     if direc in rooms[currentLocation]:
       currentLocation= rooms[currentLocation][direc]
       print('%s is at: %s' % (self.name, currentLocation))
@@ -79,6 +82,21 @@ class Player(Char):
   def o(self):
     self.move('oeste')
 
+class Enemy(Char):
+  def __init__(self):
+    super().__init__()
+  def low_moral(self):
+    damage= random.randint(0,self.moral)
+    self.moral -= damage
+    if damage == 0:
+      self.moral_max += 1
+      print('no te dejas humillar')
+    else:
+      print('%s Tu moral es: %d/%d' % (self.name, self.moral, self.moral_max))
+
+
+
+
 comandos={'norte':Player.n,
           'sur':Player.s,
           'este':Player.e,
@@ -89,13 +107,30 @@ comandos={'norte':Player.n,
           'status':Player.status,
           'rest':Player.rest}
 
-p1=Player()
-p1.name=input('Como te llamas? > ')
-while (p1.moral > 0):
-  line= input('>')
-  arg=line.split()
-  if len(arg) >0:
-    for i in comandos.keys():
-      if arg[0]==i[:len(arg[0])]:
-        comandos[i](p1)
-        break
+
+def main():
+  print('''
+
+                                    __                        __ _ _        
+                                   / _|                      / _(_) |       
+   ___  ___  ___ __ _ _ __   ___  | |_ _ __ ___  _ __ ___   | |_ _| |_ ___  
+  / _ \/ __|/ __/ _` | '_ \ / _ \ |  _| '__/ _ \| '_ ` _ \  |  _| | __/ _ \ 
+ |  __/\__ \ (_| (_| | |_) |  __/ | | | | | (_) | | | | | | | | | | || (_) |
+  \___||___/\___\__,_| .__/ \___| |_| |_|  \___/|_| |_| |_| |_| |_|\__\___/ 
+                     | |                                                    
+                     |_|                                                    
+
+  ''')
+
+  p1=Player()
+  p1.name=input('Como te llamas? > ')
+  while (p1.moral > 0):
+    line= input('>')
+    arg=line.split()
+    if len(arg) >0:
+      for i in comandos.keys():
+        if arg[0]==i[:len(arg[0])]:
+          comandos[i](p1)
+          break
+
+main()
