@@ -30,14 +30,13 @@ class Char:
 class Player(Char):
   def __init__(self):
     super().__init__()
-    self.moral=5
+    self.moral=10
     self.moral_max=10
 
   def move(self, direc):
     global currentLocation
     if random.randint(0,1):
-      e=Enemy()
-      e.low_moral()
+      Paco.checkInv(self)
     if direc in rooms[currentLocation]:
       currentLocation= rooms[currentLocation][direc]
       print('%s is at: %s' % (self.name, currentLocation))
@@ -94,7 +93,16 @@ class Enemy(Char):
     else:
       print('%s Tu moral es: %d/%d' % (self.name, self.moral, self.moral_max))
 
-
+class Paco(Enemy):
+  def __init__(self):
+    super().__init__()
+  def checkInv(self):
+    if 'cigarro' in inventory.keys():
+      print('Te cruzas con Paco. Hazme un porrito %s' % self.name)
+      inventory['cigarro']-=1
+      Enemy.low_moral(self)
+    else:
+      print('Te cruzas con Paco. Vaya veo que no tienes cigarritos..')
 
 
 comandos={'norte':Player.n,
