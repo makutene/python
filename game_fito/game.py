@@ -15,7 +15,7 @@ rooms={
                   'west':'R15',
                   'ground':['cigar']},
         'R15':{
-                'east':'R15 corrido',
+                'east':'R15 corridor',
                 'south':'escape to better life',
                 'ground':['shovel']}}
 
