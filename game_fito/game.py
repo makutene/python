@@ -5,19 +5,19 @@ currentLocation='fosmet'
 
 rooms={
         'fosmet':{
-                  'north':'nutcha',
-                  'west':'R15 corridor',
-                  'ground':['diphoterine','detector h2s','man down']},
-        'nutcha':{'south':'fosmet',
-                  'ground':[]},
-        'R15 corridor':{
-                  'east':'fosmet',
-                  'west':'R15',
-                  'ground':['cigar']},
+                  'norte':'nutcha',
+                  'oeste':'Pasillo hacia R15',
+                  'suelo':['diphoterine','detector h2s','hombre al suelo']},
+        'nutcha':{'sur':'fosmet',
+                  'suelo':[]},
+        'Pasillo hacia R15':{
+                  'este':'fosmet',
+                  'oeste':'R15',
+                  'suelo':['cigarro']},
         'R15':{
-                'east':'R15 corridor',
-                'south':'escape to better life',
-                'ground':['shovel']}}
+                'este':'Pasillo hacia R15',
+                'south':'Eres libre!',
+                'suelo':['pala']}}
 
 
 
@@ -34,7 +34,7 @@ class Player(Char):
     self.moral_max=10
 
   def help(self):
-    print(commands.keys())
+    print(comandos.keys())
 
   def move(self, direc):
     global currentLocation
@@ -42,47 +42,48 @@ class Player(Char):
       Paco.checkInv(self)
     if direc in rooms[currentLocation]:
       currentLocation= rooms[currentLocation][direc]
-      print('%s is at: %s' % (self.name, currentLocation))
+      print('%s está en: %s' % (self.name, currentLocation))
     else:
-      print('You cant go this way')
+      print('No puedes ir en esa dirección')
   
   def look(self):
-    if len(rooms[currentLocation]['ground']) > 0:
-      print(rooms[currentLocation]['ground'])
+    if len(rooms[currentLocation]['suelo']) > 0:
+      print(rooms[currentLocation]['suelo'])
     else:
-      print('Theres nothing..') 
+      print('No hay nada interesante..') 
   
   def rest(self):
     if self.moral < self.moral_max:
       self.moral += 1
+      print('moral de %s: %d/%d' % (self.name, self.moral, self.moral_max))
     else:
-      print('You rested too much...')
+      print('Has descansado mucho...')
 
   def status(self):
-    print('%s moral: %d/%d' % (self.name, self.moral, self.moral_max))
+    print('moral de %s: %d/%d' % (self.name, self.moral, self.moral_max))
 
   def take(self):
-    obj=input('Which object you want? >')
-    if obj in rooms[currentLocation]['ground']:
+    obj=input('Que objeto quieres? >')
+    if obj in rooms[currentLocation]['suelo']:
       if obj in inventory.keys():
         inventory[obj]+=1
-        rooms[currentLocation]['ground'].remove(obj)
+        rooms[currentLocation]['suelo'].remove(obj)
       else:
         inventory.setdefault(obj,1)  
     else:
-      print('The object you want is not avaiable')
+      print('Ese objeto no está')
   
   def inv(self):
     print(inventory)
 
   def n(self):
-    self.move('north')
+    self.move('norte')
   def s(self):
-    self.move('south')
+    self.move('sur')
   def e(self):
-    self.move('east')
+    self.move('este')
   def o(self):
-    self.move('west')
+    self.move('oeste')
 
 class Enemy(Char):
   def __init__(self):
@@ -92,7 +93,7 @@ class Enemy(Char):
     self.moral -= damage
     if damage == 0:
       self.moral_max += 1
-      print('you dont let be humiliated')
+      print('No te dejas humillar')
     else:
       print('%s moral: %d/%d' % (self.name, self.moral, self.moral_max))
 
@@ -100,40 +101,36 @@ class Paco(Enemy):
   def __init__(self):
     super().__init__()
   def checkInv(self):
-    if 'cigar' in inventory.keys():
-      print('You face Paco... Give me some cigar %s' % self.name)
-      inventory['cigar']-=1
+    if 'cigarro' in inventory.keys():
+      print('Te encuentras con Paco... Hazme un porrito %s' % self.name)
+      inventory['cigarro']-=1
       Enemy.low_moral(self)
     else:
-      print('You face Paco.. Ohh you dont have cigars')
+      print('Te cruzas con Paco.. Veo que no tienes cigarritos')
 
-comandos={'north':Player.n,
-          'south':Player.s,
-          'east':Player.e,
-          'west':Player.o,
-          'look':Player.look,
-          'take':Player.take,
-          'inv':Player.inv,
+comandos={'norte':Player.n,
+          'sur':Player.s,
+          'este':Player.e,
+          'oeste':Player.o,
+          'mirar':Player.look,
+          'coger':Player.take,
+          'inventario':Player.inv,
           'status':Player.status,
-          'rest':Player.rest,
-          'help':Player.help}
+          'descansar':Player.rest,
+          'ayuda':Player.help}
 
 def main():
   print('''
+        
+    Esto es ESCAPE FROM FITO
 
-                                    __                        __ _ _        
-                                   / _|                      / _(_) |       
-   ___  ___  ___ __ _ _ __   ___  | |_ _ __ ___  _ __ ___   | |_ _| |_ ___  
-  / _ \/ __|/ __/ _` | '_ \ / _ \ |  _| '__/ _ \| '_ ` _ \  |  _| | __/ _ \ 
- |  __/\__ \ (_| (_| | |_) |  __/ | | | | | (_) | | | | | | | | | | || (_) |
-  \___||___/\___\__,_| .__/ \___| |_| |_|  \___/|_| |_| |_| |_| |_|\__\___/ 
-                     | |                                                    
-                     |_|                                                    
+    Escribe ayuda para ver los comandos
+
 
   ''')
 
   p1=Player()
-  p1.name=input('Whats your name? > ')
+  p1.name=input('Como te llamas? > ')
   while (p1.moral > 0):
     line= input('>')
     arg=line.split()
@@ -142,5 +139,12 @@ def main():
         if arg[0]==i[:len(arg[0])]:
           comandos[i](p1)
           break
-
+  print('---------------------')
+  print('Has perdido... Estás condenado a estar en Fito')
+  print('---------------------')
+  response=input('Jugar de nuevo? (s) / (n) >')
+  if response == 's':
+    main()
+  else:
+    pass
 main()
