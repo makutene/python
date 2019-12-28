@@ -118,7 +118,10 @@ class Player(Char):
             print('Ese objeto no está')
 
     def inv(self):
-        print(inventory)
+        if len(inventory)==0:
+          print('Tu inventario está vacio')
+        else:
+          print(inventory)
 
     def n(self):
         self.move('norte')
@@ -212,10 +215,19 @@ def main():
 
 
   ''')
+    def checkWin():
+      if currentLocation=='Escaleras de la muerte':
+        print('$$$$$$$$$$$$$$$$$$$$$$$$$$')
+        print('Has conseguido sobrepasar todos los obstáculos y eres libre. Una nueva vida te espera')
+        print('$$$$$$$$$$$$$$$$$$$$$$$$$$')
+        response = input('Jugar de nuevo? (s) / (n) >')
+        if response == 's':
+          main()
 
     p1 = Player()
     p1.name = input('Como te llamas? > ')
     while (p1.moral > 0):
+        checkWin()
         line = input('>')
         arg = line.split()
         if len(arg) > 0:
